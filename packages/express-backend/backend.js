@@ -37,6 +37,10 @@ const users = {
   ],
 };
 
+function generateId() {
+  return Math.random().toString(36).slice(2, 8);
+}
+
 const findUserByName = (name) => {
   return users["users_list"].filter((user) => user["name"] === name);
 };
@@ -77,9 +81,9 @@ app.delete("/users/:id", (req, res) => {
 });
 
 app.post("/users", (req, res) => {
-  const userToAdd = req.body;
+  const userToAdd = { ...req.body, id: generateId() };
   addUser(userToAdd);
-  res.send();
+  res.status(201).json(userToAdd);
 });
 
 app.get("/users/:id", (req, res) => {
@@ -107,9 +111,7 @@ app.get("/", (req, res) => {
   res.send("Hello!!!");
 });
 
-app.get("/users", (req, res) => {
-  res.send(users);
-});
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
