@@ -1,8 +1,10 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const port = 8000;
 
+app.use(cors())._router;
 app.use(express.json());
 
 const users = {
@@ -47,32 +49,31 @@ const addUser = (user) => {
   return user;
 };
 
-const findUsers = ({name, job}) => {
-    return users.users_list.filter((user) => {
-        const matchName = name === undefined || user.name === name;
-        const matchJob = job === undefined || user.job === job;
-        return matchName && matchJob;
-    });
+const findUsers = ({ name, job }) => {
+  return users.users_list.filter((user) => {
+    const matchName = name === undefined || user.name === name;
+    const matchJob = job === undefined || user.job === job;
+    return matchName && matchJob;
+  });
 };
 
 const deleteUserById = (id) => {
-    const index = users.users_list.findIndex((user) => user.id === id);
-    if (index === -1) return false;
+  const index = users.users_list.findIndex((user) => user.id === id);
+  if (index === -1) return false;
 
-    users.users_list.splice(index, 1);
-    return true;
-}
+  users.users_list.splice(index, 1);
+  return true;
+};
 
 app.delete("/users/:id", (req, res) => {
-    const id = req.params.id;
-    const deleted = deleteUserById(id);
+  const id = req.params.id;
+  const deleted = deleteUserById(id);
 
-    if(!deleted) {
-        res.status(404).send("Resource not found.");
-    }
-    else {
-        res.status(204).send();
-    }
+  if (!deleted) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.status(204).send();
+  }
 });
 
 app.post("/users", (req, res) => {
@@ -92,11 +93,11 @@ app.get("/users/:id", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  const {name, job} = req.query;
+  const { name, job } = req.query;
 
   if (name !== undefined || job !== undefined) {
-    const result = findUsers({name, job});
-    res.send( {users_list: result});
+    const result = findUsers({ name, job });
+    res.send({ users_list: result });
   } else {
     res.send(users);
   }

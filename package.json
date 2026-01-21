@@ -6,7 +6,9 @@
   "author": "",
   "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run dev -w react-frontend",
+    "backend": "npm start -w express-backend"
   },
   "workspaces": [
     "packages/*"
