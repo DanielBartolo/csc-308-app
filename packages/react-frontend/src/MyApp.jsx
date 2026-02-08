@@ -13,12 +13,12 @@ function MyApp() {
   }
   function removeOneCharacter(index) {
     const user = characters[index];
-    const id = user.id;
+    const id = user._id;
 
     deleteUser(id)
       .then((res) => {
         if (res.status === 204) {
-          setCharacters((prev) => prev.filter((u) => u.id !== id));
+          setCharacters((prev) => prev.filter((u) => u._id !== id));
         } else if (res.status === 404) {
           console.log("User not found on server (404).");
         } else {
